@@ -32,18 +32,21 @@ Router.post("/upload", upload.single("file"),async(req,res)=>{
     try {
 
         var employeeData = [];
+
+        // const file = req.files.file;
+        // console.log(req.file);
+
         const workbook = XLSX.readFile(req.file.path);
 
         const sheetName = workbook.SheetNames[0];
 
         // Get the sheet data as an array of objects
         const response = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-        
             for(var x=0; x<response.length; x++){
-                const keys = Object.keys(response[x]);
+                // const keys = Object.keys(response[x]);
                 const result = employeeData.filter(user => user.email === response[x].Email);
-                if(result.length === 0 || !result){
+                const findEmail = await EmployeeModel.findOne({email : response[x].Email });
+                if((result.length === 0 || !result) && (!findEmail)){
                     employeeData.push({
                         fullname : response[x]['Name of the Candidate'],
                         email : response[x].Email,
