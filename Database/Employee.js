@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const EmployeeSchema = new mongoose.Schema({
     fullname : {
         type : String,
-        required : true,
     },
     email : {
         type : String,
@@ -11,7 +10,6 @@ const EmployeeSchema = new mongoose.Schema({
     },
     mobile : {
         type : String,
-        required : true,
     },
     dob : {
         type : String
